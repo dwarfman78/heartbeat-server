@@ -56,11 +56,21 @@ bool NetworkManager::checkHash(const std::string &hash, const std::string &subDo
 {
     bool returnValue{false};
 
-    std::string newHash = mSha256(subDomain + sender.toString()+mPassword);
+    std::string newHash = mSha256(subDomain + sender.toString()+mPassword+getTimestamp());
 
     std::cout << "checking incoming hash " << hash << " over local hash : " << newHash << std::endl;
 
     returnValue = (newHash.compare(hash) == 0);
 
     return returnValue;
+}
+std::string NetworkManager::getTimestamp() const
+{
+    time_t now;
+    time(&now);
+    struct tm* ptm;
+        
+    ptm = gmtime(&now);
+        
+    return std::to_string(ptm->tm_yday);
 }

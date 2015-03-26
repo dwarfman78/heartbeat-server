@@ -21,6 +21,7 @@ claim that you wrote the original software. If you use this software
 
 #include <SFML/Network.hpp>
 #include <iostream>
+#include <ctime>
 #include "sha256.h"
 
 /*
@@ -72,6 +73,14 @@ private:
      * @return true if new calculated hash equals received hash.
      */
     bool checkHash(const std::string& hash,const std::string& subDomain, const sf::IpAddress& sender);
+    
+    /*
+     * Returns a timestamp corresponding
+     * of the day in the current year.
+     *
+     * @return the day of the year.
+     */
+    std::string getTimestamp() const;
 
 };
 
