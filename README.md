@@ -3,7 +3,7 @@ Dynamic DNS server for GANDI
 
 Use :
 
-heartbeat_server API_URL API_KEY DOMAIN_NAME LISTENING_PORT PASSWORD
+heartbeat_server API_URL API_KEY DOMAIN_NAME LISTENING_PORT PASSWORD_FILE
 
 Dependencies :
 
@@ -13,3 +13,4 @@ Stephan Brumme's Portable hashing library (http://create.stephan-brumme.com/hash
 
 xmlrpc-c (http://xmlrpc-c.sourceforge.net/)
 
+ChaiScript (http://chaiscript.com/)

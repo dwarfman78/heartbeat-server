@@ -20,6 +20,7 @@ claim that you wrote the original software. If you use this software
 #define NetworkManager_hpp
 
 #include <SFML/Network.hpp>
+#include <chaiscript_stdlib.hpp>
 #include <iostream>
 #include <ctime>
 #include "sha256.h"
@@ -33,9 +34,10 @@ public:
     /*
      * Constructor.
      *
+     * @param passwordFile file containing passwords.
      * @param port listening port.
      */
-    explicit NetworkManager(std::string password, int port = 5009);
+    explicit NetworkManager(std::string passwordFile, int port = 5009);
 
     /*
      * Blocking method, waits for the next packet and populates nextTuple with incoming data.
@@ -51,7 +53,7 @@ private:
     /*
      * Password.
      */
-    std::string mPassword;
+    std::map<std::string,std::string> mPasswords;
 
     /*
      * Udp socket.
@@ -62,6 +64,14 @@ private:
      * Sha.
      */
     SHA256 mSha256;
+    
+    /*
+     * Get password from conf given a subdomain.
+     * @param subDomain a subdomain.
+     *
+     * @return password if found or empty string otherwise.
+     */
+    std::string getPassword(const std::string& subDomain) const;
 
     /*
      * Check incoming packet hash by calculating a new hash from incoming data.
