@@ -18,9 +18,14 @@ claim that you wrote the original software. If you use this software
 
 #include "NetworkManager.hpp"
 
-NetworkManager::NetworkManager(std::string password, int port) : mPassword(password)
+NetworkManager::NetworkManager(std::string passwordFile, int port)
 {
     mSocket.bind(port);
+    
+    chaiscript::ChaiScript chai(chaiscript::Std_Lib::library());
+    chai.add(chaiscript::bootstrap::standard_library::map_type<std::map<std::string,std::string> >("PasswordMap"));
+    chai.add(chaiscript::var(&mPasswords), "passwords");
+    chai.eval_file(passwordFile);
 }
 
 bool NetworkManager::getNextPacket(std::tuple<std::string, sf::IpAddress, unsigned short> &nextTuple)
@@ -56,7 +61,7 @@ bool NetworkManager::checkHash(const std::string &hash, const std::string &subDo
 {
     bool returnValue{false};
 
-    std::string newHash = mSha256(subDomain + sender.toString()+mPassword);
+    std::string newHash = mSha256(subDomain + sender.toString()+mPasswords[subDomain]);
 
     std::cout << "checking incoming hash " << hash << " over local hash : " << newHash << std::endl;
 
