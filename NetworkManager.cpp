@@ -60,10 +60,14 @@ bool NetworkManager::getNextPacket(std::tuple<std::string, sf::IpAddress, unsign
 bool NetworkManager::checkHash(const std::string &hash, const std::string &subDomain, const sf::IpAddress &sender)
 {
     bool returnValue{false};
+    
+    std::string timestamp = getTimestamp();
+    
+    std::cout << "Receiving heartbeat with : \n\t Subdomain : "<< subDomain <<"\n\t Sender : " << sender.toString() << "\n\t Timestamp : " << timestamp << std::endl;
+    
+    std::string newHash = mSha256(subDomain + sender.toString()+mPasswords[subDomain]+timestamp);
 
-    std::string newHash = mSha256(subDomain + sender.toString()+mPasswords[subDomain]+getTimestamp());
-
-    std::cout << "checking incoming hash " << hash << " over local hash : " << newHash << std::endl;
+    std::cout << "Checking Hash  : \n\t Received : " << hash << " \n\t Local : " << newHash << std::endl;
 
     returnValue = (newHash.compare(hash) == 0);
 

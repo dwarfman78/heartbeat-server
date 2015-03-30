@@ -64,14 +64,6 @@ private:
      * Sha.
      */
     SHA256 mSha256;
-    
-    /*
-     * Get password from conf given a subdomain.
-     * @param subDomain a subdomain.
-     *
-     * @return password if found or empty string otherwise.
-     */
-    std::string getPassword(const std::string& subDomain) const;
 
     /*
      * Check incoming packet hash by calculating a new hash from incoming data.

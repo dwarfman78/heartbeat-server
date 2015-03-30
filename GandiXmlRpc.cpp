@@ -212,21 +212,17 @@ std::map<std::string, xmlrpc_c::value> GandiXmlRpc::getRecordByName(int zoneId, 
 
 void GandiXmlRpc::updateDns(const std::string &domain, const std::string &subDomain, const std::string &ipAddress)
 {
-    std::cout << "updating DNS for domain : " << domain << " sub-domain : " << subDomain << " ip address : " << ipAddress << std::endl;
+    std::cout << "Updating DNS for \n\t Domain : " << domain << "\n\t Sub-domain : " << subDomain << "\n\t Address : " << ipAddress << std::endl;
 
     int zoneId = getZoneId(domain);
 
-    std::cout << "testing ip for zoneId : " << zoneId << std::endl;
-
     if(hasIpChanged(zoneId, subDomain, ipAddress))
     {
-        std::cout << "ip changed, updating..." << std::endl;
+        std::cout << "Address changed, updating..." << std::endl;
 
         int newZoneVersion = createNewZoneVersion(zoneId);
 
         int recordId = getRecordId(zoneId,newZoneVersion,subDomain);
-
-        std::cout << " updating record id " << recordId << std::endl;
 
         auto recordToUpdate = XmlRpcUtils::createRecordForQuery(recordId);
 
@@ -234,7 +230,7 @@ void GandiXmlRpc::updateDns(const std::string &domain, const std::string &subDom
 
         updateRecord(zoneId, newZoneVersion, recordToUpdate, zoneRecord);
 
-        std::cout << " setting new active version " << newZoneVersion << std::endl;
+        std::cout << "... setting new active version " << newZoneVersion << std::endl;
 
         setZoneVersion(zoneId, newZoneVersion);
 

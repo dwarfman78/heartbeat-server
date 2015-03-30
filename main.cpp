@@ -38,14 +38,16 @@ int main(int argc, char *argv[])
         // listening port
         std::string port = argv[4];
 
-        // strongPassword
-        std::string password = argv[5];
+        // password file
+        std::string passwordFile = argv[5];
 
-        NetworkManager networkManager(password, atoi(port.c_str()));
+        NetworkManager networkManager(passwordFile, atoi(port.c_str()));
 
         GandiXmlRpc service(apiUrl, apiKey);
 
         std::tuple<std::string, sf::IpAddress, unsigned short> nextTuple;
+        
+        std::cout << "Hello, launching heartbeat-server (1.1)" << std::endl;
 
         while (true)
         {
@@ -54,8 +56,6 @@ int main(int argc, char *argv[])
                 // Will check hash and packet integrity
                 if (networkManager.getNextPacket(nextTuple))
                 {
-                    std::cout << "Receiving packet from : " << std::get<1>(nextTuple) << std::endl;
-
                     // nextTuple[0] is subDomain, nextTuple[1] is current client ipAddress
                     service.updateDns(domain, std::get<0>(nextTuple), std::get<1>(nextTuple).toString());
                 }
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        std::cout << "invalid arguments, expecting : API_URL API_KEY DOMAIN_NAME LISTENING_PORT PASSWORD" << std::endl;
+        std::cout << "Invalid arguments, expecting : API_URL API_KEY DOMAIN_NAME LISTENING_PORT PASSWORD_FILE" << std::endl;
         return 1;
     }
 }
