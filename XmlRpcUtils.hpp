@@ -45,11 +45,11 @@ public:
         return returnValue;
     }
 
-    static std::map<std::string, xmlrpc_c::value> createRecordForQuery(int idRecord)
+    static std::map<std::string, xmlrpc_c::value> createRecordForQuery(const std::string& idRecord)
     {
         std::map<std::string, xmlrpc_c::value>  returnValue;
 
-        returnValue["id"] = xmlrpc_c::value_int(idRecord);
+        returnValue["id"] = xmlrpc_c::value_string(idRecord);
 
         return returnValue;
     }

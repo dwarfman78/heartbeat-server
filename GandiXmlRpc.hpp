@@ -77,7 +77,7 @@ public:
      *
      * @return -1 if not found or the record id.
      */
-    int getRecordId(int zoneId, int zoneVersion, const std::string& recordName);
+     std::string getRecordId(int zoneId, int zoneVersion, const std::string& recordName);
 
     /*
      * Retrieve record list from a zone identified by its id (active zone by default).

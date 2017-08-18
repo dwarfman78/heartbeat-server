@@ -139,9 +139,9 @@ void GandiXmlRpc::setZoneVersion(int zoneId, int versionId)
     mXmlRpcClient.call(mApiUrl,"domain.zone.version.set","sii",&result,mApiKey.c_str(),zoneId,versionId);
 }
 
-int GandiXmlRpc::getRecordId(int zoneId, int zoneVersion, const std::string &recordName)
+std::string GandiXmlRpc::getRecordId(int zoneId, int zoneVersion, const std::string &recordName)
 {
-    int returnValue{-1};
+  std::string  returnValue{"-1"};
 
     // find record by its name.
     auto record = getRecordByName(zoneId, recordName, zoneVersion);
@@ -153,7 +153,7 @@ int GandiXmlRpc::getRecordId(int zoneId, int zoneVersion, const std::string &rec
         if(it!=record.end())
         {
             // if record found and contains the "id" field, we return the value of the field.
-            returnValue = XmlRpcUtils::toInt(it->second);
+            returnValue = XmlRpcUtils::toString(it->second);
         }
     }
 
@@ -222,7 +222,7 @@ void GandiXmlRpc::updateDns(const std::string &domain, const std::string &subDom
 
         int newZoneVersion = createNewZoneVersion(zoneId);
 
-        int recordId = getRecordId(zoneId,newZoneVersion,subDomain);
+        std::string recordId = getRecordId(zoneId,newZoneVersion,subDomain);
 
         auto recordToUpdate = XmlRpcUtils::createRecordForQuery(recordId);
 

@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
         std::tuple<std::string, sf::IpAddress, unsigned short> nextTuple;
         
-        std::cout << "Hello, launching heartbeat-server (1.1)" << std::endl;
+        std::cout << "Hello, launching heartbeat-server (1.2)" << std::endl;
 
         while (true)
         {

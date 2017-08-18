@@ -18,14 +18,35 @@ claim that you wrote the original software. If you use this software
 
 #include "NetworkManager.hpp"
 
-NetworkManager::NetworkManager(std::string passwordFile, int port)
+NetworkManager::NetworkManager(const std::string& passwordFile, int port)
 {
-    mSocket.bind(port);
+   mSocket.bind(port);
     
-    chaiscript::ChaiScript chai(chaiscript::Std_Lib::library());
-    chai.add(chaiscript::bootstrap::standard_library::map_type<std::map<std::string,std::string> >("PasswordMap"));
-    chai.add(chaiscript::var(&mPasswords), "passwords");
-    chai.eval_file(passwordFile);
+   loadPasswords(passwordFile);
+}
+
+void NetworkManager::loadPasswords(const std::string& passwordFile)
+{
+    std::ifstream cFile (passwordFile);
+    if (cFile.is_open())
+    {
+        std::string line;
+        while(getline(cFile, line))
+	{
+            line.erase(remove_if(line.begin(), line.end(), isspace),
+                                 line.end());
+            if(line[0] == '#' || line.empty())
+                continue;
+            auto delimiterPos = line.find("=");
+            auto name = line.substr(0, delimiterPos);
+            auto value = line.substr(delimiterPos + 1);
+	    
+	    mPasswords[name]=value;
+        }
+        cFile.close();
+    }
+    else
+        std::cout << "Unable to open config file." << '\n';
 }
 
 bool NetworkManager::getNextPacket(std::tuple<std::string, sf::IpAddress, unsigned short> &nextTuple)

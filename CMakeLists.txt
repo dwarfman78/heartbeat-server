@@ -5,7 +5,7 @@ include_directories("${PROJECT_SOURCE_DIR}/extlibs/SFML-2.2/include")
 
 link_directories("${PROJECT_SOURCE_DIR}/extlibs/SFML-2.2/bin/lib")
 
-include_directories("${PROJECT_SOURCE_DIR}/extlibs/chaiscript")
+include_directories("${PROJECT_SOURCE_DIR}/extlibs/chaiscript/include")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 

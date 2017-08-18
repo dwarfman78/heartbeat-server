@@ -20,10 +20,11 @@ claim that you wrote the original software. If you use this software
 #define NetworkManager_hpp
 
 #include <SFML/Network.hpp>
-#include <chaiscript_stdlib.hpp>
 #include <iostream>
 #include <ctime>
 #include "sha256.h"
+#include<fstream>
+#include<algorithm>
 
 /*
  * Network managing.
@@ -37,7 +38,7 @@ public:
      * @param passwordFile file containing passwords.
      * @param port listening port.
      */
-    explicit NetworkManager(std::string passwordFile, int port = 5009);
+    explicit NetworkManager(const std::string& passwordFile, int port = 5009);
 
     /*
      * Blocking method, waits for the next packet and populates nextTuple with incoming data.
@@ -50,6 +51,8 @@ public:
     bool getNextPacket(std::tuple<std::string,sf::IpAddress,unsigned short>& nextTuple);
 
 private:
+
+    void loadPasswords(const std::string& passwordFile);
     /*
      * Password.
      */
