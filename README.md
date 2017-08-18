@@ -12,5 +12,3 @@ SFML : (http://sfml-dev.org)
 Stephan Brumme's Portable hashing library (http://create.stephan-brumme.com/hash-library/)
 
 xmlrpc-c (http://xmlrpc-c.sourceforge.net/)
-
-ChaiScript (http://chaiscript.com/)
